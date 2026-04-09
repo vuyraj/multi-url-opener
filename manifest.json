@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Multi URL Tab Group Launcher",
+  "version": "1.0",
+  "description": "Launch multiple tabs with URL replacements and group them by preset.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "tabGroups"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Multi URL Tab Group Launcher"
+  },
+  "commands": {
+    "open-popup": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L"
+      },
+      "description": "Open extension popup"
+    }
+  }
+}

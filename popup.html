@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi URL Tab Group Launcher</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1e1e1e;
+            color: #fff;
+            width: 400px;
+            min-height: 500px;
+            overflow-x: hidden;
+        }
+        .container {
+            padding: 20px;
+            position: relative;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .settings-btn, .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .url-input {
+            width: 100%;
+            padding: 10px;
+            background: #2d2d2d;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .preset {
+            background: #2d2d2d;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .preset:hover {
+            transform: translateY(-2px);
+        }
+        .preset.edit:hover .delete-btn, .preset.edit:hover .edit-btn {
+            opacity: 1;
+        }
+        .delete-btn, .edit-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff4444;
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 12px;
+        }
+        .edit-btn {
+            right: 30px;
+            background: #4444ff;
+        }
+        .add-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+        }
+        .modal h3 {
+            margin-top: 0;
+        }
+        .modal input, .modal select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .modal .langs-input {
+            height: 60px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .modal .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .modal button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .save-btn {
+            background: #007bff;
+            color: #fff;
+        }
+        .cancel-btn {
+            background: #444;
+            color: #fff;
+        }
+        .settings-view, .main-view {
+            display: none;
+        }
+        .main-view.active {
+            display: block;
+        }
+        .settings-view.active {
+            display: block;
+        }
+        .settings-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .settings-preset {
+            background: #2d2d2d;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .settings-preset:hover {
+            transform: translateY(-2px);
+        }
+        .settings-preset .delete-btn, .settings-preset .edit-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff4444;
+            border: none;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 12px;
+        }
+        .settings-preset .edit-btn {
+            right: 30px;
+            background: #4444ff;
+        }
+        .settings-preset:hover .delete-btn, .settings-preset:hover .edit-btn {
+            opacity: 1;
+        }
+        .add-preset-btn, .save-settings-btn {
+            background: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .save-settings-btn {
+            background: #28a745;
+        }
+        .color-options {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .color-option.selected {
+            border-color: #fff;
+        }
+        .error {
+            color: #ff4444;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container main-view active">
+        <div class="header">
+            <button class="settings-btn">⚙️</button>
+            <h2>URL Launcher</h2>
+            <div></div>
+        </div>
+        <label for="url-input">Base URL:</label>
+        <input type="text" id="url-input" class="url-input" placeholder="Enter base URL with placeholder (e.g., https://example.com/$lang/page)">
+        <div class="presets"></div>
+        <button class="add-btn">+</button>
+    </div>
+    <div class="container settings-view">
+        <div class="header">
+            <button class="back-btn">←</button>
+            <h2>Settings</h2>
+            <div></div>
+        </div>
+        <label for="placeholder-input">Placeholder:</label>
+        <input type="text" id="placeholder-input" class="placeholder-input" placeholder="$lang">
+        <h3>Presets</h3>
+        <div class="settings-presets"></div>
+        <button class="add-preset-btn">Add Preset</button>
+        <button class="save-settings-btn">Save Settings</button>
+    </div>
+    <div class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Create Preset</h3>
+            <label for="preset-name">Preset Name:</label>
+            <input type="text" id="preset-name" class="preset-name" placeholder="Preset name">
+            <label for="langs-input">Languages (comma separated):</label>
+            <textarea id="langs-input" class="langs-input" placeholder="Languages (comma separated, e.g., en,it,fr)"></textarea>
+            <div class="error"></div>
+            <div class="buttons">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
