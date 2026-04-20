@@ -119,21 +119,51 @@
         }
         .modal h3 {
             margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .modal label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ddd;
         }
         .modal input, .modal select {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
             background: #1e1e1e;
             border: 1px solid #444;
-            border-radius: 4px;
+            border-radius: 6px;
             color: #fff;
             box-sizing: border-box;
         }
         .modal .langs-input {
-            height: 60px;
+            height: 100px;
+            width: 100%;
             resize: vertical;
             box-sizing: border-box;
+        }
+        .color-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .color-row label {
+            margin-bottom: 0;
+            min-width: 60px;
+            white-space: nowrap;
+        }
+        .color-row select {
+            flex: 1;
+            width: auto;
+        }
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            display: inline-block;
+            background: blue;
         }
         .modal .buttons {
             display: flex;
@@ -215,6 +245,11 @@
         .save-settings-btn {
             background: #28a745;
         }
+        .notification {
+            color: #28a745;
+            margin-top: 10px;
+            font-weight: bold;
+        }
         .color-options {
             display: flex;
             gap: 5px;
@@ -230,10 +265,20 @@
         .color-option.selected {
             border-color: #fff;
         }
-        .error {
-            color: #ff4444;
-            font-size: 12px;
-            margin-bottom: 10px;
+        .editor-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #007bff;
+            border: none;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .editor-btn:hover {
+            background: #0056b3;
         }
     </style>
 </head>
@@ -247,6 +292,7 @@
         <label for="url-input">Base URL:</label>
         <input type="text" id="url-input" class="url-input" placeholder="Enter base URL with placeholder (e.g., https://example.com/$lang/page)">
         <div class="presets"></div>
+        <button class="editor-btn" id="editorBtn">Editor</button>
         <button class="add-btn">+</button>
     </div>
     <div class="container settings-view">
@@ -261,14 +307,35 @@
         <div class="settings-presets"></div>
         <button class="add-preset-btn">Add Preset</button>
         <button class="save-settings-btn">Save Settings</button>
+        <div id="notification" class="notification" style="display: none;"></div>
     </div>
     <div class="modal" style="display: none;">
         <div class="modal-content">
             <h3>Create Preset</h3>
             <label for="preset-name">Preset Name:</label>
             <input type="text" id="preset-name" class="preset-name" placeholder="Preset name">
+            <br>
             <label for="langs-input">Languages (comma separated):</label>
             <textarea id="langs-input" class="langs-input" placeholder="Languages (comma separated, e.g., en,it,fr)"></textarea>
+            <br>
+            <div class="color-row">
+                <label for="color-select">Color:</label>
+                <select id="color-select" class="color-select">
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="purple">Purple</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="cyan">Cyan</option>
+                    <option value="grey">Grey</option>
+                    <option value="pink">Pink</option>
+                    <option value="teal">Teal</option>
+                    <option value="brown">Brown</option>
+                    <option value="lime">Lime</option>
+                </select>
+                <span class="color-preview"></span>
+            </div>
             <div class="error"></div>
             <div class="buttons">
                 <button class="cancel-btn">Cancel</button>
