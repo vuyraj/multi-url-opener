@@ -8,7 +8,6 @@ A Chrome extension for developers and QA testers to quickly launch multiple loca
 - **Preset Management**: Create, edit, and delete presets with names, language lists, and random colors.
 - **Tab Launching**: Click a preset to open multiple tabs with replaced URLs, automatically grouped in Chrome Tab Groups.
 - **Settings Panel**: Manage presets, edit the placeholder, and save configurations.
-- **Keyboard Shortcut**: Ctrl+Shift+Y to open the popup (customizable in Chrome extensions).
 - **Modern UI**: Dark theme with smooth transitions and hover effects.
 
 ## Installation

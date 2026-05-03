@@ -265,10 +265,10 @@
         .color-option.selected {
             border-color: #fff;
         }
-        .editor-btn {
+        .editor-btn,
+        .live-btn {
             position: fixed;
             bottom: 20px;
-            left: 20px;
             background: #007bff;
             border: none;
             color: #fff;
@@ -276,8 +276,16 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
+            z-index: 100;
         }
-        .editor-btn:hover {
+        .editor-btn {
+            left: 20px;
+        }
+        .live-btn {
+            left: 120px;
+        }
+        .editor-btn:hover,
+        .live-btn:hover {
             background: #0056b3;
         }
     </style>
@@ -293,6 +301,7 @@
         <input type="text" id="url-input" class="url-input" placeholder="Enter base URL with placeholder (e.g., https://example.com/$lang/page)">
         <div class="presets"></div>
         <button class="editor-btn" id="editorBtn">Editor</button>
+        <button class="live-btn" id="liveBtn">Live</button>
         <button class="add-btn">+</button>
     </div>
     <div class="container settings-view">
